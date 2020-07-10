@@ -1,0 +1,93 @@
+﻿@using Spark.Models;
+@{
+	ViewBag.Title = "Save";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	List<Department> depts = ViewBag.Departments;
+}
+
+<h2>Save</h2>
+@if (ViewBag.saveFailed)
+{
+	<div class="alert alert-danger">
+		<p>Unsuccessfull to create. Please enter unique NID</p>
+	</div>
+}
+<form id="employee-form" method="post">
+	<div class="form-group">
+		<input class="form-control" type="text" name="Name" placeholder="Name" />
+	</div>
+	<div class="form-group">
+		<input class="form-control" type="text" name="Designation" placeholder="Designation" />
+	</div>
+	<div class="form-group">
+		<input class="form-control" type="text" name="NID" placeholder="NID" />
+	</div>
+	<div class="form-group">
+		<input class="form-control" type="date" name="JoiningDate" />
+	</div>
+	<div class="form-group">
+		<select class="form-control" name="BloodGroup">
+			<option value="0">- Select -</option>
+			<option value="A+">A+</option>
+			<option value="A-">A-</option>
+			<option value="B+">B+</option>
+			<option value="B-">B-</option>
+			<option value="O+">O+</option>
+			<option value="O-">O-</option>
+			<option value="AB+">AB+</option>
+			<option value="AB-">AB-</option>
+		</select>
+	</div>
+	<div class="form-group">
+		<select class="form-control" name="DepartmentId">
+			<option selected value="0">- Select -</option>
+			@foreach (var dept in depts)
+			{
+				<option value="@dept.DepartmentId">@dept.Name</option>
+			}
+		</select>
+	</div>
+	<input type="submit" class="btn btn-success" />
+</form>
+@section scripts
+	{
+
+	<script src="~/Scripts/jquery.validate.min.js"></script>
+	<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+	<script>
+		$(document).ready(function () {
+			$("#employee-form").validate({
+				rules: {
+					Name: {
+						required: true
+					},
+					Designation: {
+						required: true
+					},
+					NID: {
+						required:true
+					},
+					DepartmentId: {
+						min:1
+					}
+				},
+				messages: {
+					Name: {
+						required: "Name is required!!!"
+					},
+					Designation: {
+						required: "Designation is required!!!"
+					},
+					NID: {
+						required: "NID is required!!!"
+					},
+					DepartmentId: {
+						min: "Please select department!!!"
+					}
+				}
+			});
+		})
+	</script>
+
+}
+

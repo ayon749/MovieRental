@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Spark.ViewModel.EmployeeWithDepartment>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Employee List</h2>
+<h3><a href="@Url.Action("Save")">Create New</a></h3>
+
+<table class="table">
+	<thead>
+		<tr>
+			<td>Name</td>
+			<td>Designation</td>
+			<td>NID</td>
+			<td>Joining Date</td>
+			<td>Blood Group</td>
+			<td>Department</td>
+			<td>Department COde</td>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach(var employee in Model)
+		{
+			<tr>
+				<td>@employee.EmployeeName</td>
+				<td>@employee.Designation</td>
+				<td>@employee.NID</td>
+				<td>@employee.JoiningDate</td>
+				<td>@employee.BloodGroup</td>
+				<td>@employee.DepartmentName</td>
+				<td>@employee.Code</td>
+			</tr>
+		}
+	</tbody>
+</table>
+

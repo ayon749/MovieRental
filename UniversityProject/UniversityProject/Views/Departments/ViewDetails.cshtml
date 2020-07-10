@@ -1,0 +1,81 @@
+﻿@model UniversityProject.Models.Department
+@{
+	/**/
+
+	ViewBag.Title = "ViewDetails";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ViewDetails</h2>
+
+@using (Html.BeginForm())
+{
+	<div class="form-group">
+		@Html.LabelFor(model => model.DepartmentId, "Department Code")
+		@Html.DropDownList("DepartmentId", null, "--Select Department--", htmlAttributes: new { @class = "form-control" })
+
+	</div>
+	<div class="form-group">
+		@Html.Label("Student Name")
+		<select class="form-control" id="studentId" name="studentId">
+			<option value="">--Select Student--</option>
+
+		</select>
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(model => model.Name)
+		@Html.TextBoxFor(m=>m.Name,new { @class="form-control",@readonly="readonly"})
+	</div>
+}
+	<table class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th>Reg No</th>
+				<th>Email</th>
+				<th>Age</th>
+				<th>Department Name</th>
+			</tr>
+		</thead>
+		<tbody id="studentInfo"></tbody>
+
+	</table>
+@section scripts
+{
+	<script>
+		$(document).ready(function () {
+			$("#DepartmentId").change(function () {
+				var deptId = $("#DepartmentId").val();
+				var parameter = { departmentId: deptId }
+				$("#studentId").empty();
+				$("#studentId").append('<option value="">--Select Student--</option>');
+				$.ajax({
+					type: "POST",
+					url:'@Url.Action("GetStudentById", "Departments")',
+					contentType: "application/json;charset=utf-8",
+					data: JSON.stringify(parameter),
+					success: function (studentList) {
+						$.each(studentList,
+							function (key, value) {
+								$("#studentId").append('<option value=' + value.StudnetId + '>' + value.Name + '</option>');
+						});
+					}
+					
+				});
+			});
+			$("#studentId").change(function () {
+				var id = $("#studentId").val();
+				var parameter = { id: id }
+				$.ajax({
+					type: "POST",
+					url:'@Url.Action("GetStudentByOwnId", "Departments")',
+					contentType: "application/json;charset=utf-8",
+					data: JSON.stringify(parameter),
+					success: function (student) {
+						$("#Name").val(student.Department.Name);
+					}
+				})
+			});
+
+		});
+	</script>
+}

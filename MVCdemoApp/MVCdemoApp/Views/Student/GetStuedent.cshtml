@@ -1,0 +1,16 @@
+﻿@using MVCdemoApp.Models
+@model List<Student>
+@{
+	ViewBag.Title = "GetStuedent";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	
+	
+}
+
+<h2>GetStuedent</h2>
+@foreach(Student aStudent in Model)
+{
+	<p>@aStudent.Name</p>
+	<p>@aStudent.RegNo</p>
+	<p>@aStudent.DepartmentName</p>
+}
